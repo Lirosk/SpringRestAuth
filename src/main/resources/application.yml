@@ -1,4 +1,6 @@
 spring:
+  config:
+    import: classpath:secrets.yml
   application:
     name: SpringRestAuth
   datasource:
