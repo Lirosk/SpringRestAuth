@@ -1,15 +1,14 @@
 package lirosk.springrestauth.security;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-
-import lirosk.springrestauth.models.CustomUser;
+import org.springframework.security.core.userdetails.UserDetails;
 
 public class UserAuthToken extends AbstractAuthenticationToken {
-    private final CustomUser customUser;
+    private final UserDetails user;
 
-    public UserAuthToken(CustomUser customUser) {
-        super(customUser.getAuthorities());
-        this.customUser = customUser;
+    public UserAuthToken(UserDetails user) {
+        super(user.getAuthorities());
+        this.user = user;
         setAuthenticated(true);
     }
 
@@ -19,7 +18,7 @@ public class UserAuthToken extends AbstractAuthenticationToken {
     }
 
     @Override
-    public CustomUser getPrincipal() {
-        return customUser;
+    public UserDetails getPrincipal() {
+        return user;
     }
 }
