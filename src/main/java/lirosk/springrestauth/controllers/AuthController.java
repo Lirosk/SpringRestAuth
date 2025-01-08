@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lirosk.springrestauth.dto.AuthRequest;
 import lirosk.springrestauth.dto.LoginResponse;
-import lirosk.springrestauth.dto.RegisterRequest;
 import lirosk.springrestauth.dto.UserInfo;
 import lirosk.springrestauth.services.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserInfo register(@RequestBody @Validated RegisterRequest authRequest) {
+    public UserInfo register(@RequestBody @Validated AuthRequest authRequest) {
         return authService.attemptRegister(authRequest);
     }
 

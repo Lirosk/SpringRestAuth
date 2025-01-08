@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import lirosk.springrestauth.dto.AuthRequest;
 import lirosk.springrestauth.dto.LoginResponse;
-import lirosk.springrestauth.dto.RegisterRequest;
 import lirosk.springrestauth.dto.UserInfo;
 import lirosk.springrestauth.models.CustomUser;
 import lirosk.springrestauth.repositories.CustomUserRepository;
@@ -26,8 +25,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final CustomUserRepository customUserRepository;
 
-    public UserInfo attemptRegister(RegisterRequest authRequest) {
-        if (customUserRepository.findByUsername(authRequest.getUsername()) != null) {
+    public UserInfo attemptRegister(AuthRequest authRequest) {
+        if (customUserRepository.findByUsername(authRequest.username()) != null) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
         return UserInfo.of(customUserRepository.save(authRequest.toUser(passwordEncoder)));
@@ -35,7 +34,7 @@ public class AuthService {
 
     public LoginResponse attemptLogin(AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUser customUser = (CustomUser) authentication.getPrincipal();

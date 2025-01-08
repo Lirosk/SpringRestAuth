@@ -1,9 +1,11 @@
 package lirosk.springrestauth.dto;
 
-import lombok.Data;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Data
-public class AuthRequest {
-    private String username;
-    private String password;
+import lirosk.springrestauth.models.CustomUser;
+
+public record AuthRequest(String username, String password) {
+    public CustomUser toUser(PasswordEncoder passwordEncoder) {
+        return new CustomUser(username, passwordEncoder.encode(password));
+    }
 }
